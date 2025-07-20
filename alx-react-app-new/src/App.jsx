@@ -1,21 +1,17 @@
-import Header from './components/Header'; 
+import React from 'react';
+import Header from './components/Header';
 import MainContent from './components/MainContent';
 import Footer from './components/Footer';
-import UserProfile from './components/UserProfile'; // ✅ Import UserProfile
+import UserProfile from './components/UserProfile';
+import Counter from './components/Counter'; // 👈 import Counter
 
 function App() {
   return (
     <>
       <Header />
       <MainContent />
-
-      {/* ✅ Add UserProfile component with props */}
-      <UserProfile 
-        name="Alice" 
-        age="25" 
-        bio="Loves hiking and photography" 
-      />
-
+      <UserProfile name="Frimpong" age={24} bio="Loves cities and coding." />
+      <Counter /> {/* 👈 Use the component here */}
       <Footer />
     </>
   );
