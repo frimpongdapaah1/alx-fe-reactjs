@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { searchUsers } from "../services/api";
+import { searchUsers } from "../services/githubService";
 
 export default function Search() {
   const [username, setUsername] = useState("");
