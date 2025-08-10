@@ -1,70 +1,89 @@
 import { useState } from "react";
-import { fetchUserData } from "../services/githubService";
+import { searchUsers } from "../services/api";
 
-function Search() {
+export default function Search() {
   const [username, setUsername] = useState("");
-  const [user, setUser] = useState(null);
+  const [location, setLocation] = useState("");
+  const [minRepos, setMinRepos] = useState("");
+  const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(false);
+  const [error, setError] = useState("");
 
-  const handleSubmit = async (e) => {
+  const handleSearch = async (e) => {
     e.preventDefault();
-    if (!username.trim()) return;
-
     setLoading(true);
-    setError(false);
-    setUser(null);
-
+    setError("");
     try {
-      const data = await fetchUserData(username.trim());
-      setUser(data);
+      let query = username;
+      if (location) query += `+location:${location}`;
+      if (minRepos) query += `+repos:>${minRepos}`;
+      const data = await searchUsers(query);
+      setResults(data.items || []);
     } catch (err) {
-      setError(true);
+      setError("Looks like we can't find the user.");
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div style={{ textAlign: "center", marginTop: "20px" }}>
-      <form onSubmit={handleSubmit}>
+    <div className="max-w-2xl mx-auto p-6">
+      <form onSubmit={handleSearch} className="bg-white shadow-md rounded-lg p-6 space-y-4">
+        <h2 className="text-xl font-bold">Advanced GitHub User Search</h2>
+        
         <input
           type="text"
-          placeholder="Enter GitHub username"
+          placeholder="Username"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
-          style={{ padding: "8px", width: "250px" }}
+          className="w-full border border-gray-300 rounded p-2"
         />
+        
+        <input
+          type="text"
+          placeholder="Location"
+          value={location}
+          onChange={(e) => setLocation(e.target.value)}
+          className="w-full border border-gray-300 rounded p-2"
+        />
+        
+        <input
+          type="number"
+          placeholder="Minimum Repositories"
+          value={minRepos}
+          onChange={(e) => setMinRepos(e.target.value)}
+          className="w-full border border-gray-300 rounded p-2"
+        />
+        
         <button
           type="submit"
-          style={{ marginLeft: "8px", padding: "8px 12px" }}
+          className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition"
         >
           Search
         </button>
       </form>
 
-      {loading && <p>Loading...</p>}
-      {error && <p>Looks like we cant find the user</p>}
+      {loading && <p className="mt-4 text-gray-600">Loading...</p>}
+      {error && <p className="mt-4 text-red-600">{error}</p>}
 
-      {user && (
-        <div style={{ marginTop: "20px" }}>
-          <img
-            src={user.avatar_url}
-            alt={user.login}
-            style={{ width: "100px", borderRadius: "50%" }}
-          />
-          <h2>{user.name || user.login}</h2>
-          <a
-            href={user.html_url}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            View GitHub Profile
-          </a>
-        </div>
-      )}
+      <div className="mt-6 space-y-4">
+        {results.map(user => (
+          <div key={user.id} className="flex items-center space-x-4 bg-gray-100 p-4 rounded">
+            <img src={user.avatar_url} alt={user.login} className="w-12 h-12 rounded-full" />
+            <div>
+              <p className="font-semibold">{user.login}</p>
+              <a
+                href={user.html_url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-blue-500 hover:underline"
+              >
+                View Profile
+              </a>
+            </div>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
-
-export default Search;
