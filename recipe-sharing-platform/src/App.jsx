@@ -1,18 +1,17 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import HomePage from "./components/HomePage";
+import RecipeDetail from "./components/RecipeDetail";
 
 function App() {
   return (
-    <div className="text-center mt-10">
-      <h1 className="text-4xl font-bold text-blue-500">
-        Tailwind CSS is working! 🎉
-      </h1>
-      <p className="text-gray-600">
-        Welcome to the Recipe Sharing Platform setup.
-      </p>
-    </div>
+    <Router>
+      <div className="bg-gray-100 min-h-screen">
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/recipe/:id" element={<RecipeDetail />} />
+        </Routes>
+      </div>
+    </Router>
   );
 }
 
