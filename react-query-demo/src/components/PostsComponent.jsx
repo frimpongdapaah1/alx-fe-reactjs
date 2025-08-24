@@ -1,4 +1,4 @@
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 
 async function fetchPosts() {
   const res = await fetch("https://jsonplaceholder.typicode.com/posts");
@@ -7,8 +7,6 @@ async function fetchPosts() {
 }
 
 export default function PostsComponent() {
-  const queryClient = useQueryClient();
-
   const {
     data,
     isLoading,
@@ -20,6 +18,11 @@ export default function PostsComponent() {
   } = useQuery({
     queryKey: ["posts"],
     queryFn: fetchPosts,
+    // 🔑 Caching & Stale Options
+    staleTime: 1000 * 60 * 1, // 1 min → data considered fresh
+    cacheTime: 1000 * 60 * 5, // 5 mins in cache before GC
+    refetchOnWindowFocus: true, // refetch when user focuses window
+    keepPreviousData: true, // keep old data during refetch
   });
 
   if (isLoading) return <p>Loading posts…</p>;
@@ -30,6 +33,8 @@ export default function PostsComponent() {
 
   return (
     <div>
+      <h2>Posts with React Query</h2>
+
       <button onClick={() => refetch()} disabled={isFetching}>
         {isFetching ? "Refetching…" : "Refetch now"}
       </button>
