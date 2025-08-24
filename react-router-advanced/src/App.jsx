@@ -1,7 +1,7 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import Home from "./components/Home";
 import Profile from "./components/Profile";
-import Post from "./components/Post";
+import BlogPost from "./components/BlogPost";
 import Login from "./components/Login";
 import ProtectedRoute from "./components/ProtectedRoute";
 
@@ -21,8 +21,8 @@ export default function App() {
           }
         />
 
-        {/* 🔗 Dynamic Route */}
-        <Route path="/posts/:id" element={<Post />} />
+        {/* 🔗 Dynamic Blog Route */}
+        <Route path="/blog/:id" element={<BlogPost />} />
 
         {/* Auth route */}
         <Route path="/login" element={<Login />} />
