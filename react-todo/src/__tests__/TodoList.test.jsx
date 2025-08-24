@@ -25,7 +25,6 @@ test("toggles a todo", () => {
 
 test("deletes a todo", () => {
   render(<TodoList />);
-  const todo = screen.getByText("Learn React");
   const deleteButton = screen.getAllByText("Delete")[0];
   fireEvent.click(deleteButton);
   expect(screen.queryByText("Learn React")).not.toBeInTheDocument();
