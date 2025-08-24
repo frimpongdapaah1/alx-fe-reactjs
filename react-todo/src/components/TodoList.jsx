@@ -1,15 +1,16 @@
+// src/components/TodoList.jsx
 import { useState } from "react";
 
 export default function TodoList() {
   const [todos, setTodos] = useState([
     { id: 1, text: "Learn React", completed: false },
-    { id: 2, text: "Build a Todo App", completed: true },
+    { id: 2, text: "Build a Todo App", completed: false },
   ]);
   const [newTodo, setNewTodo] = useState("");
 
   const addTodo = (e) => {
     e.preventDefault();
-    if (!newTodo.trim()) return;
+    if (newTodo.trim() === "") return;
     setTodos([...todos, { id: Date.now(), text: newTodo, completed: false }]);
     setNewTodo("");
   };
@@ -31,7 +32,6 @@ export default function TodoList() {
       <h2>Todo List</h2>
       <form onSubmit={addTodo}>
         <input
-          type="text"
           placeholder="Add todo"
           value={newTodo}
           onChange={(e) => setNewTodo(e.target.value)}
@@ -42,14 +42,12 @@ export default function TodoList() {
         {todos.map((todo) => (
           <li
             key={todo.id}
-            onClick={() => toggleTodo(todo.id)}
             style={{
               textDecoration: todo.completed ? "line-through" : "none",
-              cursor: "pointer",
             }}
           >
-            {todo.text}
-            <button onClick={() => deleteTodo(todo.id)}>❌</button>
+            <span onClick={() => toggleTodo(todo.id)}>{todo.text}</span>
+            <button onClick={() => deleteTodo(todo.id)}>Delete</button>
           </li>
         ))}
       </ul>
