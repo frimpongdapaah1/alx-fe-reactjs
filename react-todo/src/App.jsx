@@ -1,4 +1,3 @@
-// src/App.jsx
 import TodoList from "./components/TodoList";
 
 function App() {

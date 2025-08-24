@@ -1,4 +1,3 @@
-// src/components/TodoList.jsx
 import { useState } from "react";
 
 export default function TodoList() {
@@ -10,7 +9,7 @@ export default function TodoList() {
 
   const addTodo = (e) => {
     e.preventDefault();
-    if (newTodo.trim() === "") return;
+    if (!newTodo.trim()) return;
     setTodos([...todos, { id: Date.now(), text: newTodo, completed: false }]);
     setNewTodo("");
   };
@@ -42,9 +41,7 @@ export default function TodoList() {
         {todos.map((todo) => (
           <li
             key={todo.id}
-            style={{
-              textDecoration: todo.completed ? "line-through" : "none",
-            }}
+            style={{ textDecoration: todo.completed ? "line-through" : "none" }}
           >
             <span onClick={() => toggleTodo(todo.id)}>{todo.text}</span>
             <button onClick={() => deleteTodo(todo.id)}>Delete</button>
