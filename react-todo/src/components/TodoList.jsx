@@ -3,14 +3,17 @@ import { useState } from "react";
 export default function TodoList() {
   const [todos, setTodos] = useState([
     { id: 1, text: "Learn React", completed: false },
-    { id: 2, text: "Build a Todo App", completed: false },
+    { id: 2, text: "Build a Todo App", completed: true },
   ]);
   const [newTodo, setNewTodo] = useState("");
 
-  const handleAddTodo = (e) => {
+  const addTodo = (e) => {
     e.preventDefault();
     if (!newTodo.trim()) return;
-    setTodos([...todos, { id: Date.now(), text: newTodo, completed: false }]);
+    setTodos([
+      ...todos,
+      { id: Date.now(), text: newTodo, completed: false },
+    ]);
     setNewTodo("");
   };
 
@@ -29,7 +32,7 @@ export default function TodoList() {
   return (
     <div>
       <h2>Todo List</h2>
-      <form onSubmit={handleAddTodo}>
+      <form onSubmit={addTodo}>
         <input
           type="text"
           placeholder="Add a new todo"
@@ -38,6 +41,7 @@ export default function TodoList() {
         />
         <button type="submit">Add</button>
       </form>
+
       <ul>
         {todos.map((todo) => (
           <li
