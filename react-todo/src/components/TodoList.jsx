@@ -10,10 +10,7 @@ export default function TodoList() {
   const addTodo = (e) => {
     e.preventDefault();
     if (!newTodo.trim()) return;
-    setTodos([
-      ...todos,
-      { id: Date.now(), text: newTodo, completed: false },
-    ]);
+    setTodos([...todos, { id: Date.now(), text: newTodo, completed: false }]);
     setNewTodo("");
   };
 
@@ -35,13 +32,12 @@ export default function TodoList() {
       <form onSubmit={addTodo}>
         <input
           type="text"
-          placeholder="Add a new todo"
+          placeholder="Add todo"
           value={newTodo}
           onChange={(e) => setNewTodo(e.target.value)}
         />
         <button type="submit">Add</button>
       </form>
-
       <ul>
         {todos.map((todo) => (
           <li
@@ -53,9 +49,7 @@ export default function TodoList() {
             }}
           >
             {todo.text}
-            <button onClick={(e) => { e.stopPropagation(); deleteTodo(todo.id); }}>
-              Delete
-            </button>
+            <button onClick={() => deleteTodo(todo.id)}>❌</button>
           </li>
         ))}
       </ul>
