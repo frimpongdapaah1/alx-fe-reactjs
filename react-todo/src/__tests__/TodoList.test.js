@@ -22,7 +22,6 @@ test("adds a new todo", () => {
 test("toggles a todo", () => {
   render(<TodoList />);
   const todo = screen.getByText("Learn React");
-
   fireEvent.click(todo);
   expect(todo).toHaveStyle("text-decoration: line-through");
 });
@@ -33,6 +32,5 @@ test("deletes a todo", () => {
   const deleteBtn = todo.nextSibling;
 
   fireEvent.click(deleteBtn);
-
   expect(screen.queryByText("Learn React")).not.toBeInTheDocument();
 });
